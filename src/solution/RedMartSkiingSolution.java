@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-
+/**
+ * 
+ * @author Xiao Zhe
+ *
+ */
 public class RedMartSkiingSolution {
 	
 	private int N;
@@ -19,7 +23,13 @@ public class RedMartSkiingSolution {
 		dataImport(dataPath);
 		initializeStartStatus();
 	}
-
+    
+	/**
+	 * Index class is used to record the matrix row and column index
+	 * 
+	 * @author Xiao Zhe
+	 *
+	 */
 	private class Index {
 		private int i;
 		private int j;
@@ -30,6 +40,11 @@ public class RedMartSkiingSolution {
 		}
 	}
 	
+	/**
+	 * Read data from .txt file to array
+	 * 
+	 * @param path
+	 */
 	private void dataImport(String path) {
 		String thisLine = null;
 		String[] arr = null;
@@ -62,6 +77,12 @@ public class RedMartSkiingSolution {
 		}
 	}
 
+	/**
+	 * find all the "peak point" and label them as 1 in rst array;
+	 * 
+	 * "peak point" is defined as the point which is larger than the surrounding points;
+	 * 
+	 */
 	private void initializeStartStatus() {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
@@ -74,7 +95,20 @@ public class RedMartSkiingSolution {
 			}
 		}
 	}
-
+	
+    /**
+     * DP algorithm to calculate the longest path to each of the points,
+     * and the results are stored in rst array.
+     * 
+     * state transfer function: 
+     * rst[i][j] = max{surrounding points:(rst[i-1][j],rst[i+1][j],rst[i][j-1],rst[i][j+1]) | for those surrounding points with value > rst[i][j]}+1;
+     * 
+     * Note the boundary points(please see the code)
+     * 
+     * @param i
+     * @param j
+     * @return
+     */
 	private int getMaxLength(int i, int j) {
 
 		int a1 = 0;
@@ -132,6 +166,16 @@ public class RedMartSkiingSolution {
 
 	}
 
+	/**
+	 * call the {@link #getMaxLength(int, int)}
+	 * for all the points to get the longest skiing path that ends at each point
+	 * and calculate the longest path steps;
+	 * 
+	 * In this method, all the end points with longest path are recorded in{@link #endPoints}
+	 * 
+	 * 
+	 * @return max length
+	 */
 	public int getMaxLength() {
 
 		for (int i = 0; i < N; i++) {
@@ -156,6 +200,7 @@ public class RedMartSkiingSolution {
 		return max;
 	}
 
+	
 	public int getMaxDrop() {
 		for (Index in : endPoints) {
 			int i = in.i;
@@ -165,6 +210,13 @@ public class RedMartSkiingSolution {
 		return maxDrop;
 	}
 
+	/**
+	 * from the recorded end points to track back to find the path with max drop
+	 * 
+	 * @param i
+	 * @param j
+	 * @param des
+	 */
 	private void getMaxDrop(int i, int j, int des) {
 		if ((i - 1 < 0 ? true : data[i][j] > data[i - 1][j])
 				&& (i + 1 >= N ? true : data[i][j] > data[i + 1][j])
