@@ -19,7 +19,7 @@ public class RedMartSkiingSolution {
 	
 	public RedMartSkiingSolution(String dataPath){
 		endPoints = new ArrayList<Index>();
-	    maxDrop = Integer.MIN_VALUE;
+	    maxDrop = 0;
 		dataImport(dataPath);
 		initializeStartStatus();
 	}
@@ -111,56 +111,56 @@ public class RedMartSkiingSolution {
      */
 	private int getMaxLength(int i, int j) {
 
-		int a1 = 0;
-		int a2 = 0;
-		int a3 = 0;
-		int a4 = 0;
+		int left = 0;
+		int right = 0;
+		int above = 0;
+		int botton = 0;
 
 		if (i - 1 >= 0 && data[i - 1][j] > data[i][j]) {
 			if (rst[i - 1][j] == 0) {
-				a1 = getMaxLength(i - 1, j);
-				rst[i - 1][j] = a1;
+				left = getMaxLength(i - 1, j);
+				rst[i - 1][j] = left;
 			} else {
-				a1 = rst[i - 1][j];
+				left = rst[i - 1][j];
 			}
 		}
 
 		if (i + 1 < N && data[i + 1][j] > data[i][j]) {
 			if (rst[i + 1][j] == 0) {
-				a2 = getMaxLength(i + 1, j);
-				rst[i + 1][j] = a2;
+				right = getMaxLength(i + 1, j);
+				rst[i + 1][j] = right;
 			} else {
-				a2 = rst[i + 1][j];
+				right = rst[i + 1][j];
 			}
 		}
 
 		if (j - 1 >= 0 && data[i][j - 1] > data[i][j]) {
 			if (rst[i][j - 1] == 0) {
-				a3 = getMaxLength(i, j - 1);
-				rst[i][j - 1] = a3;
+				above = getMaxLength(i, j - 1);
+				rst[i][j - 1] = above;
 			} else {
-				a3 = rst[i][j - 1];
+				above = rst[i][j - 1];
 			}
 		}
 
 		if (j + 1 < N && data[i][j + 1] > data[i][j]) {
 			if (rst[i][j + 1] == 0) {
-				a4 = getMaxLength(i, j + 1);
-				rst[i][j + 1] = a4;
+				botton = getMaxLength(i, j + 1);
+				rst[i][j + 1] = botton;
 			} else {
-				a4 = rst[i][j + 1];
+				botton = rst[i][j + 1];
 			}
 		}
 
-		int max = Integer.MIN_VALUE;
-		if (a1 > max)
-			max = a1;
-		if (a2 > max)
-			max = a2;
-		if (a3 > max)
-			max = a3;
-		if (a4 > max)
-			max = a4;
+		int max = 0;
+		if (left > max)
+			max = left;
+		if (right > max)
+			max = right;
+		if (above > max)
+			max = above;
+		if (botton > max)
+			max = botton;
 
 		return max + 1;
 
